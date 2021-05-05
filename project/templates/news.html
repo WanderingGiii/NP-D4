@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Все посты: {{ news|length }}
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все посты -->
+{% block content %}
+    <h2> {{ time_now|date:'d M Y' }}</h2>
+    <hr>
+
+    {% if news %}
+        <table>
+            <tr>
+                <td><h5>Заголовок </h5></td>
+                <td><h5>Дата      </h5></td>
+                <td><h5>Превью</h5></td>
+            </tr>
+        {% for newsdetail in news %}
+            <tr>
+                <td>{{newsdetail.title}}</td>
+                <td>{{newsdetail.datetime|date:'d M Y' }}</td>
+                <td>{{newsdetail.text|truncatechars:50}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2> нет постов </h2>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+<h1>{{newsdetail.title}}</h1>
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим пост -->
+{% block content %}
+{{newsdetail.datetime|date:'d-M-Y h:m'}}
+<h6>{{ newsdetail.text }}</h6>
+{% endblock content %}
