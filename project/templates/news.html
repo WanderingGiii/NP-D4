@@ -20,9 +20,9 @@
             </tr>
         {% for newsdetail in news %}
             <tr>
-                <td>{{newsdetail.title}}</td>
+                <td>{{newsdetail.title|censor}}</td>
                 <td>{{newsdetail.datetime|date:'d M Y' }}</td>
-                <td>{{newsdetail.text|truncatechars:50}}</td>
+                <td>{{newsdetail.text|censor|truncatechars:50}}</td>
             </tr>
         {% endfor %}
         </table>

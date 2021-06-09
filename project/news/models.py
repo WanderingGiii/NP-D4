@@ -1,8 +1,10 @@
 from django.db import models
 from datetime import datetime
+#from django.db.models import Sum
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
+
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
@@ -21,20 +23,22 @@ class Author(models.Model):
 
 
 class Cathegory(models.Model):
-    cathegory = models.CharField(max_length = 150, unique = True)
+    cathegory = models.CharField(max_length = 64, unique = True)
 
     def __str__(self):
         return self.cathegory
 
+
 class Post(models.Model):
+
+    author = models.ForeignKey(Author, on_delete = models.CASCADE)
+
     ARTICLE = 'AR'
     NEWS = 'NW'
-
     POSTTYPE = [
         (ARTICLE, 'article'),
         (NEWS, 'news'),
     ]
-    author = models.ForeignKey(Author, on_delete = models.CASCADE)
     post_type = models.CharField(
         max_length=2,
         choices=POSTTYPE,
@@ -43,7 +47,7 @@ class Post(models.Model):
 
     datetime = models.DateTimeField(auto_now_add = True)
     cathegory = models.ManyToManyField(Cathegory, through = 'PostCathegory')
-    title = models.CharField(max_length = 255)
+    title = models.CharField(max_length = 128)
     text = models.TextField(default = '')
     post_ranking = models.FloatField(default = 0.0)
 
@@ -65,6 +69,7 @@ class Post(models.Model):
 class PostCathegory(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     cathegory = models.ForeignKey(Cathegory, on_delete = models.CASCADE)
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE)

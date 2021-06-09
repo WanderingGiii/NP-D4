@@ -3,11 +3,31 @@
 {% load custom_filters %}
 
 {% block title %}
-<h1>{{newsdetail.title}}</h1>
+<h1>{{newsdetail.title|censor}}</h1>
 {% endblock title %}
 
 <!-- В контенте на странице мы выводим пост -->
 {% block content %}
 {{newsdetail.datetime|date:'d-M-Y h:m'}}
-<h6>{{ newsdetail.text }}</h6>
+<h6>{{ newsdetail.text|censor }}</h6>
+<hr>
+    {% if comments %}
+        <table>
+            <tr>
+                <td><h5>Автор </h5></td>
+                <td><h5>Дата      </h5></td>
+                <td><h5>Комментарий</h5></td>
+            </tr>
+        {% for comment in comments %}
+            <tr>
+                <td>{{newsdetail.comment.user}}</td>
+                <td>{{newsdetail.comment.comment_datetime|date:'d-M-Y h:m' }}</td>
+                <td>{{newsdetail.comment.comment_text|censor}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h5> нет комментариев </h5>
+    {% endif %}
+
 {% endblock content %}

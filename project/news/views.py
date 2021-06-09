@@ -1,10 +1,13 @@
+from django.shortcuts import render
+from django.views import View  # импортируем простую вьюшку
+from django.core.paginator import Paginator  # импортируем класс, позволяющий удобно осуществлять постраничный вывод
 from django.views.generic import ListView, DetailView
-from .models import Post
+from .models import Post, Comment
 from datetime import datetime
 
 
 class NewsList(ListView):
-    model = Post
+    model = Post, Comment
     template_name = 'news.html'
     context_object_name = 'news'
     queryset = Post.objects.order_by('-id')
@@ -17,9 +20,23 @@ class NewsList(ListView):
         return context
 
 class NewsView(DetailView):
-    model = Post
+    model = Post, Comment
     template_name = 'newsdetail.html'
     context_object_name = 'newsdetail'
     queryset = Post.objects.order_by('-id')
+
+class CommentList(ListView):
+    model = Post, Comment
+    template_name = 'newsdetail.html'
+    context_object_name = 'comments'
+    queryset = Comment.objects.order_by('-id')
+
+class CommentView(DetailView):
+    model = Post, Comment
+    template_name = 'newsdetail.html'
+    context_object_name = 'comment'
+    queryset = Post.objects.order_by('-id')
+
+
 
 
