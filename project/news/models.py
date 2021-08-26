@@ -10,6 +10,9 @@ class Author(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     user_ranking = models.FloatField(default = 0.0)
 
+    def __str__(self):
+        return f'{self.user}'
+
     def update_ranking(self):
         author_posts = Post.objects.filter(author = self.user_id)
         author_articles = author_posts.object.filter(cathegory = artile)
